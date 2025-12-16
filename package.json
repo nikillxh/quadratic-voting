@@ -1,5 +1,5 @@
 {
-  "name": "my-onchainkit-app",
+  "name": "quadratic-voting",
   "version": "0.1.0",
   "private": true,
   "scripts": {

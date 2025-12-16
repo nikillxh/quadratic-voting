@@ -1,5 +1,6 @@
 "use client";
 
+import { QuadcandyVotes, QuadTotal } from "@/calls";
 import { useEffect, useState } from "react";
 
 type Item = {
@@ -15,22 +16,19 @@ type VotingStatsProps = {
 const MAX_VOTES = 100;
 
 
-export default function VotingStats({ onValidityChange }: VotingStatsProps) {
+export default function VotingStats() {
   const [items, setItems] = useState<Item[]>([
-    { id: 1, title: "Hoodie Alpha", votes: 0 },
-    { id: 2, title: "Hoodie Beta", votes: 0 },
-    { id: 3, title: "Hoodie Gamma", votes: 0 },
+    { id: 0, title: "Hoodie Alpha", votes: 0 },
+    { id: 1, title: "Hoodie Beta", votes: 0 },
+    { id: 2, title: "Hoodie Gamma", votes: 0 },
+    { id: 3, title: "Hoodie Delta", votes: 0 },
+    { id: 4, title: "Hoodie Sigma", votes: 0 },
   ]);
 
   const totalVotes = items.reduce((sum, i) => sum + i.votes, 0);
   const votesLeft = MAX_VOTES - totalVotes;
 
   const isValid = votesLeft === 0;
-
-  useEffect(() => {
-    onValidityChange?.(isValid);
-  }, [isValid, onValidityChange]);
-
 
   const updateVotes = (id: number, value: number) => {
     setItems((prev) =>
@@ -50,31 +48,38 @@ export default function VotingStats({ onValidityChange }: VotingStatsProps) {
   };
 
   return (
-    <div className="mx-auto bg-black/30 p-6 m-4 rounded-lg border border-amber-100/20
-    hover:bg-black/50 hover:border-2 transition duration-300 ease-in-out">
-      <div className="space-y-6">
-        {items.map((item) => (
-          <div
-            key={item.id}
-            className="grid grid-cols-2 gap-6 items-center text-center"
-          >
-            <h2 className="text-white text-2xl font-light">
-              {item.title}
-            </h2>
+    <div className="flex flex-col justify-between px-4">
+    
+    <pre className="flex font-bold text-2xl justify-center pt-6">Vote Statistics</pre>
 
-            <pre>_</pre>
-          </div>
-        ))}
+    <div className="mx-auto flex grow flex-col justify-between bg-black/30 p-6 m-4 rounded-lg border border-amber-100/20
+    hover:bg-black/50 hover:border-2 transition duration-300 ease-in-out">
+        
+        <div className="flex grow flex-col justify-around pb-4">
+            {items.map((item) => (
+            <div key={item.id}
+                className="grid grid-cols-2 gap-6 items-center text-center">
+            
+                <h2 className="text-white text-xl font-light">
+                {item.title}
+                </h2>
+
+                <pre className="text-xl"><QuadcandyVotes id={item.id} /></pre>
+            </div>
+            ))}
+        </div>
+
 
         <div className="pt-6 border-t border-neutral-700">
-          <p className="text-white text-center text-2xl font-light">
-            Votes Left:{" "}
-            <span className="text-violet-400">
-              {votesLeft}
+          <p className="text-white text-center text-xl font-light">
+            Total Votes:{" "}
+            <span className="text-pink-400 text-xl">
+              <QuadTotal/>
             </span>
           </p>
         </div>
-      </div>
     </div>
+    </div>
+
   );
 }
