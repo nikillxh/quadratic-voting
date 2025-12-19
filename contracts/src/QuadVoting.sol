@@ -10,7 +10,15 @@ contract QuadVoting {
     string public QVname; 
 
     // Vote status of voters
-    mapping (address => bool) public voteStatus;
+    mapping (address => uint8) public voteStatus;
+
+    ///////////////////////////////
+    // Vote Status               //
+    ///////////////////////////////
+    // 0 = Not a voter           //
+    // 1 = Voter & not yet voted //
+    // 2 = Voter & voted         //
+    ///////////////////////////////
 
     // Votes of candidates, Sqrt Sum Votes, Quadratic Votes
     // Candidate options, Total QuadVotes, Total candidates
@@ -45,15 +53,15 @@ contract QuadVoting {
         candidateVotes = new uint256[](candidates);
         sqrtcandyVotes = new uint256[](candidates);
         quadcandyVotes = new uint256[](candidates);
-        deadline = _deadline;
+        deadline = block.timestamp + _deadline;
     }
 
     // Vote Function
     function vote(uint256[] calldata _votes) public
     voteOnline returns (bool) {
-        require(voteStatus[msg.sender] == true, "Already voted or Ineligible!");
+        require(voteStatus[msg.sender] == 1, "Already voted or Ineligible!");
         checkVotes(_votes);
-        voteStatus[msg.sender] = false;
+        voteStatus[msg.sender] = 2;
         uint256 quadSum = 0;
         for (uint256 i = 0; i < _votes.length; i++) {
             candidateVotes[i] += _votes[i];
@@ -103,14 +111,31 @@ contract QuadVoting {
     function giveVoteAccess(address[] calldata addresses) public 
     voteOnline ownerControl returns (bool) {
         for (uint256 i = 0; i < addresses.length; i++) {
-            voteStatus[addresses[i]] = true;
+            // Can't vote if already voted
+            if (voteStatus[addresses[i]] == 2) {continue;}
+            voteStatus[addresses[i]] = 1;
         }
         return true;
     }
 
-    // QV Status?
-    function QVstatus() public view returns (bool) {
-        if (block.timestamp < deadline) return true;
+    // QV Ended?
+    function QVended() public view returns (bool) {
+        if (block.timestamp >= deadline) return true;
         return false;
+    }
+
+    // Leading Candidate
+    function leadingCandidate() public view returns (uint256) {
+        uint256 maxValue = candidateVotes[0];
+        uint256 index = 0;
+
+        for (uint256 i = 1; i < candidateVotes.length; i++) {
+            if (candidateVotes[i] > maxValue) {
+                maxValue = candidateVotes[i];
+                index = i;
+            }
+        }
+
+        return index;
     }
 }

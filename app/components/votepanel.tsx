@@ -10,13 +10,17 @@ type Item = {
 
 type VotingPanelProps = {
   onValidityChange?: (isValid: boolean) => void;
+  qvEnded?: boolean;
+  voteStatus?: number;
 };
 
 const MAX_VOTES = 100;
 
-export const votes: bigint[] = [0n, 0n, 0n, 0n, 0n];
+export var votes: bigint[] = [0n, 0n, 0n, 0n, 0n];
 
-export default function VotingPanel({ onValidityChange }: VotingPanelProps) {
+export default function VotingPanel({ onValidityChange, qvEnded, voteStatus }: VotingPanelProps) {
+  console.log("QV Ended:", qvEnded);
+
   const [items, setItems] = useState<Item[]>([
     { id: 0, title: "Hoodie Alpha", votes: 0 },
     { id: 1, title: "Hoodie Beta", votes: 0 },
@@ -28,12 +32,9 @@ export default function VotingPanel({ onValidityChange }: VotingPanelProps) {
   const totalVotes = items.reduce((sum, i) => sum + i.votes, 0);
   const votesLeft = MAX_VOTES - totalVotes;
 
-  const isValid = votesLeft === 0;
-
   useEffect(() => {
-    onValidityChange?.(isValid);
-  }, [isValid, onValidityChange]);
-
+    onValidityChange?.(votesLeft === 0);
+  }, [votesLeft, onValidityChange]);
 
   const updateVotes = (id: number, value: number) => {
     setItems((prev) =>
@@ -72,25 +73,36 @@ export default function VotingPanel({ onValidityChange }: VotingPanelProps) {
 
             <input
               type="number"
-              min={0}
               value={item.votes == 0? "": item.votes}
               onChange={(e) =>
-                updateVotes(item.id, Number(e.target.value))
+                updateVotes(item.id, Number(e.target.value == ""? 0 : e.target.value))
               }
               className="bg-neutral-800 max-w-32 text-white text-xl text-center p-2 rounded-md outline-none focus:ring-2 focus:ring-violet-500
               transition duration-500 ease-in-out"
-              placeholder="0"
+              placeholder={!qvEnded && voteStatus == 1? "0" : "𓃵"}
+              disabled={!qvEnded && voteStatus == 1? false : true}
             />
           </div>
         ))}
 
         <div className="pt-6 border-t border-neutral-700">
-          <p className="text-white text-center text-xl font-light">
-            Votes Left:{" "}
-            <span className="text-violet-400">
-              {votesLeft}
-            </span>
-          </p>
+          {qvEnded ? (
+            <p className="text-green-500 text-center text-xl font-light">
+              Voting ended
+            </p>
+            ):(
+            voteStatus == 0 ? (
+              <pre className="text-amber-500 text-center text-xl font-light">
+                Not a voter</pre>
+            ) : voteStatus === 1 ? (
+            <p className="text-white text-center text-xl font-light">
+              Votes Left:{" "}
+              <span className="text-violet-400">{votesLeft}</span>
+            </p>) : (
+              <pre className="text-cyan-500 text-center text-xl font-light">
+                Already Voted!</pre>
+            )
+          )}
         </div>
       </div>
     </div>

@@ -9,43 +9,13 @@ type Item = {
   votes: number;
 };
 
-type VotingStatsProps = {
-  onValidityChange?: (isValid: boolean) => void;
-};
-
-const MAX_VOTES = 100;
-
-
 export default function VotingStats() {
-  const [items, setItems] = useState<Item[]>([
+  const items = [
     { id: 0, title: "Hoodie Alpha", votes: 0 },
     { id: 1, title: "Hoodie Beta", votes: 0 },
     { id: 2, title: "Hoodie Gamma", votes: 0 },
     { id: 3, title: "Hoodie Delta", votes: 0 },
-    { id: 4, title: "Hoodie Sigma", votes: 0 },
-  ]);
-
-  const totalVotes = items.reduce((sum, i) => sum + i.votes, 0);
-  const votesLeft = MAX_VOTES - totalVotes;
-
-  const isValid = votesLeft === 0;
-
-  const updateVotes = (id: number, value: number) => {
-    setItems((prev) =>
-      prev.map((item) => {
-        if (item.id !== id) return item;
-
-        const otherVotes = totalVotes - item.votes;
-
-        const clamped = Math.max(
-          0,
-          Math.min(value, MAX_VOTES - otherVotes)
-        );
-
-        return { ...item, votes: clamped };
-      })
-    );
-  };
+    { id: 4, title: "Hoodie Sigma", votes: 0 }];
 
   return (
     <div className="flex flex-col justify-between px-4">
