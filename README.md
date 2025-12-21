@@ -1,4 +1,4 @@
-## Getting Started
+## Quadratic Voting
 **For Non-voter friends,**
 
 **I Judged you non-voters so hard that I accidentally got internship under a Supreme Court Judge**
