@@ -54,10 +54,7 @@ export default function Home() {
         <Boxy title="Hoodie Sigma" src="/pikapika.png" />
       </div>
 
-      <div className="flex font-bold text-wrap text-xl md:text-2xl justify-center lg:my-12 my-8
-      border-gray-400 border-2 rounded-2xl lg:p-6 p-4">
-        <VoteResult qvEnded={qvEnded} />
-      </div>
+      <VoteResult qvEnded={qvEnded} />
 
 
       <div className="flex flex-col items-stretch">
