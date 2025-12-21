@@ -32,6 +32,12 @@ contract QuadVoting {
     // Quadratic Voting Deadline
     uint256 public deadline;
 
+    // Event for logging votes
+    event Voted(address indexed voter, uint256[] votes);
+
+    // Event for giving vote access
+    event VoteAccessGranted(address indexed overseer, address indexed voter);
+
     // Modifier for Online QV status
     modifier voteOnline() {
         require(block.timestamp < deadline, "QV Ended!");
@@ -74,6 +80,9 @@ contract QuadVoting {
         }
         quadTotal = quadSum;
 
+        // Event emit Voted
+        emit Voted(msg.sender, _votes);
+
         return true;
     }
 
@@ -114,6 +123,9 @@ contract QuadVoting {
             // Can't vote if already voted
             if (voteStatus[addresses[i]] == 2) {continue;}
             voteStatus[addresses[i]] = 1;
+
+            // Event emit Vote Access Granted
+            emit VoteAccessGranted(msg.sender, addresses[i]);
         }
         return true;
     }

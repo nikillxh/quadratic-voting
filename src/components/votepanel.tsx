@@ -1,33 +1,20 @@
 "use client";
 
-import { useEffect, useState } from "react";
-
-type Item = {
-  id: number;
-  title: string;
-  votes: number;
-};
+import { useEffect } from "react";
 
 type VotingPanelProps = {
   onValidityChange?: (isValid: boolean) => void;
   qvEnded?: boolean;
   voteStatus?: number;
+  items: Item[];
+  setItems: React.Dispatch<React.SetStateAction<Item[]>>;
 };
 
 const MAX_VOTES = 100;
 
-export var votes: bigint[] = [0n, 0n, 0n, 0n, 0n];
 
-export default function VotingPanel({ onValidityChange, qvEnded, voteStatus }: VotingPanelProps) {
+export default function VotingPanel({ onValidityChange, qvEnded, voteStatus, items, setItems }: VotingPanelProps) {
   console.log("QV Ended:", qvEnded);
-
-  const [items, setItems] = useState<Item[]>([
-    { id: 0, title: "Hoodie Alpha", votes: 0 },
-    { id: 1, title: "Hoodie Beta", votes: 0 },
-    { id: 2, title: "Hoodie Gamma", votes: 0 },
-    { id: 3, title: "Hoodie Delta", votes: 0 },
-    { id: 4, title: "Hoodie Gamma", votes: 0 },
-  ]);
 
   const totalVotes = items.reduce((sum, i) => sum + i.votes, 0);
   const votesLeft = MAX_VOTES - totalVotes;
@@ -36,22 +23,37 @@ export default function VotingPanel({ onValidityChange, qvEnded, voteStatus }: V
     onValidityChange?.(votesLeft === 0);
   }, [votesLeft, onValidityChange]);
 
-  const updateVotes = (id: number, value: number) => {
-    setItems((prev) =>
-      prev.map((item) => {
-        if (item.id !== id) return item;
+  // const updateVotes = (id: number, value: number) => {
+  //   setItems((prev) =>
+  //     prev.map((item) => {
+  //       if (item.id !== id) return item;
 
-        const otherVotes = totalVotes - item.votes;
-        votes[item.id] = BigInt(value);
+  //       const otherVotes = totalVotes - item.votes;
+        
+  //       const clamped = Math.max(
+  //         0,
+  //         Math.min(value, MAX_VOTES - otherVotes)
+  //       );
 
-        const clamped = Math.max(
-          0,
-          Math.min(value, MAX_VOTES - otherVotes)
-        );
+  //       return { ...item, votes: clamped };
+  //     })
+  //   );
+  // };
 
-        return { ...item, votes: clamped };
-      })
-    );
+  const updateVotes = (id: number, raw: number) => {
+    setItems(prev => {
+      const totalWithoutThis =
+        prev.reduce((sum, i) => sum + i.votes, 0) - prev[id].votes;
+
+      const clamped = Math.max(
+        0,
+        Math.min(raw, MAX_VOTES - totalWithoutThis)
+      );
+
+      return prev.map(item =>
+        item.id === id ? { ...item, votes: clamped } : item
+      );
+    });
   };
 
   return (
@@ -74,9 +76,10 @@ export default function VotingPanel({ onValidityChange, qvEnded, voteStatus }: V
             <input
               type="number"
               value={item.votes == 0? "": item.votes}
-              onChange={(e) =>
-                updateVotes(item.id, Number(e.target.value == ""? 0 : e.target.value))
-              }
+              onChange={(e) => {
+                const value = Number(e.target.value || 0);
+                updateVotes(item.id, value);
+              }}
               className="bg-neutral-800 max-w-32 text-white text-xl text-center p-2 rounded-md outline-none focus:ring-2 focus:ring-violet-500
               transition duration-500 ease-in-out"
               placeholder={!qvEnded && voteStatus == 1? "0" : "𓃵"}

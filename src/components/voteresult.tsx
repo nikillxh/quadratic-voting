@@ -1,4 +1,4 @@
-import { useLeadingCandidate } from "@/calls"
+import { useLeadingCandidate } from "../app/calls"
 
 const candidateNames = ["Hoodie Alpha", "Hoodie Beta", "Hoodie Gamma", "Hoodie Delta", "Hoodie Sigma"];
 

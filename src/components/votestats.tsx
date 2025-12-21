@@ -1,6 +1,6 @@
 "use client";
 
-import { QuadcandyVotes, QuadTotal } from "@/calls";
+import { QuadcandyVotes, QuadTotal } from "../app/calls";
 import { useEffect, useState } from "react";
 
 type Item = {
@@ -28,7 +28,7 @@ export default function VotingStats() {
         <div className="flex grow flex-col justify-around pb-4">
             {items.map((item) => (
             <div key={item.id}
-                className="grid grid-cols-2 gap-6 items-center text-center">
+                className="grid grid-cols-2 gap-6 py-3 items-center text-center">
             
                 <h2 className="text-white text-xl font-light">
                 {item.title}

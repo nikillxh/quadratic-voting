@@ -1,4 +1,5 @@
-import { useReadContract, useWriteContract } from 'wagmi';
+import { useEffect, useState } from 'react';
+import { usePublicClient, useReadContract, useWatchContractEvent, useWriteContract } from 'wagmi';
 
 export const QVcontractAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3" as `0x${string}`;
 
@@ -13,6 +14,7 @@ export const QVcontractAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3" as
 // 6 // Candidate Vote Status (used Wagmi)
 //////////////////////////////////////////////////////
 //////////////////////////////////////////////////////
+
 
 
 // 1 // Quadratic Candidate Votes ABI (used Wagmi)
@@ -161,4 +163,45 @@ export function useVoteStatus(address: `0x${string}`): number {
   });
 
   return data ?? 0;
+}
+
+
+
+// 7 // Events ABI
+export const EventsABI = [
+  {
+    type: "event",
+    name: "VoteAccessGranted",
+    inputs: [
+      { name: "overseer", type: "address", indexed: true },
+      { name: "voter", type: "address", indexed: true },
+    ],
+  },
+  {
+    type: "event",
+    name: "Voted",
+    inputs: [
+      { name: "voter", type: "address", indexed: true },
+      { name: "votes", type: "uint256[]", indexed: false },
+    ],
+  },
+] as const;
+
+
+export async function fetchAllEvents(client: any) {
+  const votedLogs = await client.getLogs({
+    address: QVcontractAddress,
+    event: EventsABI[1], // Voted
+    fromBlock: "earliest",
+    toBlock: "latest",
+  });
+
+  const accessLogs = await client.getLogs({
+    address: QVcontractAddress,
+    event: EventsABI[0], // VoteAccessGranted
+    fromBlock: "earliest",
+    toBlock: "latest",
+  });
+
+  return [...votedLogs, ...accessLogs];
 }

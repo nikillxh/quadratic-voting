@@ -1,39 +1,46 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-onchain`](https://www.npmjs.com/package/create-onchain).
-
-
 ## Getting Started
+**For Non-voter friends,**
 
-First, install dependencies:
+**I Judged you non-voters so hard that I accidentally got internship under a Supreme Court Judge**
 
-```bash
-npm install
-# or
-yarn install
-# or
-pnpm install
-# or
-bun install
+### Pre-requisite
+Install npm, forge, anvil, etc
+
+### How to run?
+#### Terminal 1
+Run the NextJS app
 ```
-
-Next, run the development server:
-
-```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+#### Terminal 2
+Run the local chain
+```
+anvil
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-
-## Learn More
-
-To learn more about OnchainKit, see our [documentation](https://docs.base.org/onchainkit).
-
-To learn more about Next.js, see the [Next.js documentation](https://nextjs.org/docs).
+#### Terminal 3
+1. Go to contracts folder
+    ```
+    cd contracts
+    ```
+2. Check out the `anvil_chain.md` and update the set PRIVATE_KEY according to your shell into `.env` file in this folder. Then set env variables.
+    ```
+    source .env
+    ```
+3. Run deploy script
+    ```
+    forge script script/QuadVoting.s.sol:DeployQuadVoting --rpc-url http://localhost:8545 --broadcast
+    ```
+4. Update `.env` with CONTRACT_ADDRESS with deployed address. Then update env variables.
+    ```
+    source .env
+    ```
+5. Run voter setup script
+    ```
+    forge script script/QuadVoting.s.sol:SetupVoters --rpc-url http://localhost:8545 --broadcast
+    ```
+6. Run vote casting script
+    ```
+    forge script script/QuadVoting.s.sol:CastVote --rpc-url http://localhost:8545 --broadcast
+    ```

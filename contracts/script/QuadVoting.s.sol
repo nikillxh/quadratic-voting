@@ -72,28 +72,53 @@ contract SetupVoters is Script {
 
 contract CastVote is Script {
     function run() external {
+        // Define Anvil private keys for voters
+        uint256[] memory voterPrivateKeys = new uint256[](5);
+
+        // Hardcoded Anvil private keys
+        uint256;
+        voterPrivateKeys[0] = 0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80;
+        voterPrivateKeys[1] = 0x59c6995e998f97a5a0044966f0945389dc9e86dae88c7a8412f4603b6b78690d;
+        voterPrivateKeys[2] = 0x5de4111afa1a4b94908f83103eb1f1706367c2e68ca870fc3fb9a804cdab365a;
+        voterPrivateKeys[3] = 0x7c852118294e51e653712a81e05800f419141751be58f605c371e15141b007a6;
+        voterPrivateKeys[4] = 0x47e179ec197488593b187f80a00eb0da91f1b9d0b13f8733639f19c30a34926a;
+
+
+        // Hardcoded deployed contract address
         address contractAddress = vm.envAddress("CONTRACT_ADDRESS");
-        uint256 voterPrivateKey = vm.envUint("VOTER_PRIVATE_KEY");
-        
         QuadVoting quadVoting = QuadVoting(contractAddress);
+
+        // Select voter (change index to simulate different voters)
+        for (uint256 i = 0; i < 5; i++) {
+            castVoteAsVoter(quadVoting, voterPrivateKeys[i]);
+        }
+    }
+
+    function castVoteAsVoter(QuadVoting quadVoting, uint256 voterPrivateKey) internal {
+        address voter = vm.addr(voterPrivateKey);
         
-        // Prepare votes
-        uint256[] memory votes = new uint256[](3);
-        votes[0] = 50; // Alice: 50 votes
-        votes[1] = 30; // Bob: 30 votes
-        votes[2] = 20; // Charlie: 20 votes
-        
+        // Define votes for candidates
+        uint256[] memory votes = new uint256[](5);
+
+        // Votes (must match candidate count)
+        uint256;
+        votes[0] = 23;
+        votes[1] = 31;
+        votes[2] = 43;
+        votes[3] = 3;
+        votes[4] = 0;
+
         vm.startBroadcast(voterPrivateKey);
-        
-        // Cast vote
+
         quadVoting.vote(votes);
-        
+
         vm.stopBroadcast();
-        
+
         console.log("Vote cast successfully");
-        console.log("Alice:", votes[0]);
-        console.log("Bob:", votes[1]);
-        console.log("Charlie:", votes[2]);
+        console.log("Voter:", voter);
+        for (uint256 i = 0; i < votes.length; i++) {
+            console2.log("Vote", i, votes[i]);
+        }
     }
 }
 
