@@ -1,4 +1,5 @@
 import { fetchAllEvents } from "@/app/calls";
+import { QVEvent } from "@/types/types";
 import { useState, useEffect } from "react";
 import { usePublicClient } from "wagmi";
 
@@ -33,7 +34,7 @@ export function QVEventTimeline() {
             flex lg:flex-row flex-col items-center justify-center
             hover:bg-black/20 hover:border-2 transition duration-300 ease-in-out cursor-pointer">
               <pre>🗳️ {e.args.voter}</pre> <pre> voted:
-              {e.args.votes.map((v: bigint, idx: number) => (
+              {e.args.votes?.map((v: bigint, idx: number) => (
                 <span key={idx} className="ml-2">
                   [{idx}]{v.toString()}
                 </span>
@@ -51,13 +52,15 @@ export function QVEventTimeline() {
 
 export function useQVTimeline() {
   const client = usePublicClient();
-  const [events, setEvents] = useState<any[]>([]);
+  const [events, setEvents] = useState<QVEvent[]>([]);
 
   useEffect(() => {
     if (!client) return;
 
+    const publicClient = client;
+
     async function load() {
-      const logs = await fetchAllEvents(client);
+      const logs = await fetchAllEvents(publicClient);
       setEvents(sortLogs(logs));
     }
 
@@ -68,7 +71,7 @@ export function useQVTimeline() {
 }
 
 
-function sortLogs(logs: any[]) {
+function sortLogs(logs: QVEvent[]) {
   return logs.sort((a, b) => {
     if (a.blockNumber !== b.blockNumber)
       return Number(a.blockNumber - b.blockNumber);
@@ -80,7 +83,7 @@ function sortLogs(logs: any[]) {
   });
 }
 
-function getTxUrl(txHash: string) {
+function getTxUrl(txHash: string | null) {
   const base = "https://sepolia.basescan.org";
   if (!base) return null;
   return `${base}/tx/${txHash}`;

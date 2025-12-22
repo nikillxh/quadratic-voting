@@ -33,8 +33,8 @@ export default function VoteButton(voteProps: { canSubmit: boolean, voteDist: bi
     }
   }
 
-  function handleDisabled() {
-    var qvEnded = useQVEnded();
+  function useHandleDisabled() {
+    const qvEnded = useQVEnded();
     return !voteProps.canSubmit || qvEnded || isPending;
   }
   
@@ -45,7 +45,7 @@ export default function VoteButton(voteProps: { canSubmit: boolean, voteDist: bi
         disabled:bg-blue-300/30 disabled:cursor-default disabled:text-gray-400
         hover:bg-blue-500 active:bg-blue-500 transition-all duration-100 cursor-pointer"
         onClick={() => submitVote(voteProps.voteDist)}
-        disabled={handleDisabled()}
+        disabled={useHandleDisabled()}
       >
         <p>{handleText()}</p>
       </button>

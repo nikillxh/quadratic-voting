@@ -1,5 +1,6 @@
 "use client";
 
+import { Item } from "@/types/types";
 import { useEffect } from "react";
 
 type VotingPanelProps = {
@@ -22,23 +23,6 @@ export default function VotingPanel({ onValidityChange, qvEnded, voteStatus, ite
   useEffect(() => {
     onValidityChange?.(votesLeft === 0);
   }, [votesLeft, onValidityChange]);
-
-  // const updateVotes = (id: number, value: number) => {
-  //   setItems((prev) =>
-  //     prev.map((item) => {
-  //       if (item.id !== id) return item;
-
-  //       const otherVotes = totalVotes - item.votes;
-        
-  //       const clamped = Math.max(
-  //         0,
-  //         Math.min(value, MAX_VOTES - otherVotes)
-  //       );
-
-  //       return { ...item, votes: clamped };
-  //     })
-  //   );
-  // };
 
   const updateVotes = (id: number, raw: number) => {
     setItems(prev => {

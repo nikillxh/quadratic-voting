@@ -3,7 +3,7 @@ import { useLeadingCandidate } from "../app/calls"
 const candidateNames = ["Hoodie Alpha", "Hoodie Beta", "Hoodie Gamma", "Hoodie Delta", "Hoodie Sigma"];
 
 export default function VoteResult(voteProps: {qvEnded?: boolean}) {
-    var lead = useLeadingCandidate();
+    const lead = useLeadingCandidate();
     if (lead === null) return (
         <div className={`flex font-bold text-wrap text-xl md:text-2xl justify-center lg:my-12 my-8
       border-gray-400 border-2 rounded-2xl lg:p-6 p-4 ${voteProps.qvEnded? 'bg-black/30' : '' }`}>

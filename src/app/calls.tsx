@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
-import { usePublicClient, useReadContract, useWatchContractEvent, useWriteContract } from 'wagmi';
+import { parseEventLogs, PublicClient } from 'viem';
+import { useReadContract } from 'wagmi';
 
 export const QVcontractAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3" as `0x${string}`;
 
@@ -188,20 +188,17 @@ export const EventsABI = [
 ] as const;
 
 
-export async function fetchAllEvents(client: any) {
-  const votedLogs = await client.getLogs({
+export async function fetchAllEvents(client: PublicClient) {
+  const rawLogs = await client.getLogs({
     address: QVcontractAddress,
-    event: EventsABI[1], // Voted
     fromBlock: "earliest",
     toBlock: "latest",
   });
 
-  const accessLogs = await client.getLogs({
-    address: QVcontractAddress,
-    event: EventsABI[0], // VoteAccessGranted
-    fromBlock: "earliest",
-    toBlock: "latest",
+  const parsedLogs = parseEventLogs({
+    abi: EventsABI,
+    logs: rawLogs,
   });
 
-  return [...votedLogs, ...accessLogs];
+  return parsedLogs;
 }

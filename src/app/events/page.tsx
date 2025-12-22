@@ -1,7 +1,6 @@
 "use client";
 
 import { Wallet } from "@coinbase/onchainkit/wallet";
-import styles from ".././page.module.css";
 import { QVEventTimeline } from "@/components/eventlist";
 import { HomeButton } from "@/components/homebutton";
 import { Footer } from "@/components/footer";

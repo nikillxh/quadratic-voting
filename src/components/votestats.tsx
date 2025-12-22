@@ -1,13 +1,7 @@
 "use client";
 
 import { QuadcandyVotes, QuadTotal } from "../app/calls";
-import { useEffect, useState } from "react";
 
-type Item = {
-  id: number;
-  title: string;
-  votes: number;
-};
 
 export default function VotingStats() {
   const items = [

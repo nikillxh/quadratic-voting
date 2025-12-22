@@ -6,12 +6,13 @@ import { Boxy } from "../components/boxy";
 import VotingPanel from "../components/votepanel";
 import { useState } from "react";
 import VotingStats from "../components/votestats";
-import { useAccount, useChainId, useSwitchChain } from "wagmi";
+import { useAccount, useChainId } from "wagmi";
 import VoteButton from "../components/votebutton";
 import { useQVEnded, useVoteStatus } from "./calls";
 import VoteResult from "../components/voteresult";
 import EventsButton from "@/components/eventbutton";
 import { Footer } from "@/components/footer";
+import { Item } from "@/types/types";
 
 export default function Home() {
   const chainId = useChainId();
