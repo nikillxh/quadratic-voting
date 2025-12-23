@@ -68,17 +68,19 @@ contract QuadVoting {
         require(voteStatus[msg.sender] == 1, "Already voted or Ineligible!");
         checkVotes(_votes);
         voteStatus[msg.sender] = 2;
-        uint256 quadSum = 0;
+
+        uint256 runningQuadTotal = quadTotal;   //from here
         for (uint256 i = 0; i < _votes.length; i++) {
-            candidateVotes[i] += _votes[i];
-
-            uint256 num = sqrt3(_votes[i]);
-            sqrtcandyVotes[i] += num;
-
-            quadcandyVotes[i] = sqrtcandyVotes[i]**2;
-            quadSum += quadcandyVotes[i];
+            if (_votes[i] > 0) {
+                runningQuadTotal -= quadcandyVotes[i];
+                candidateVotes[i] += _votes[i];
+                uint256 num = sqrt3(_votes[i]);
+                sqrtcandyVotes[i] += num;
+                quadcandyVotes[i] = sqrtcandyVotes[i]**2;
+                runningQuadTotal += quadcandyVotes[i];
+            }
         }
-        quadTotal = quadSum;
+        quadTotal = runningQuadTotal;           //till here
 
         // Event emit Voted
         emit Voted(msg.sender, _votes);
