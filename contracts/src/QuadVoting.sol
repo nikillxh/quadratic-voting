@@ -24,7 +24,7 @@ contract QuadVoting {
     // Candidate options, Total QuadVotes, Total candidates
     uint256[] public candidateVotes;
     uint256[] public sqrtcandyVotes;
-    uint256[] public quadcandyVotes;
+    uint256[] public quadcandyVotes; //it will be removed in future update (deployment on mainnet)
     string[] public candidateNames;
     uint256 public quadTotal;
     uint256 public candidates;
@@ -138,12 +138,12 @@ contract QuadVoting {
 
     // Leading Candidate
     function leadingCandidate() public view returns (uint256) {
-        uint256 maxValue = candidateVotes[0];
+        uint256 maxValue = sqrtcandyVotes[0];
         uint256 index = 0;
 
-        for (uint256 i = 1; i < candidateVotes.length; i++) {
-            if (candidateVotes[i] > maxValue) {
-                maxValue = candidateVotes[i];
+        for (uint256 i = 1; i < sqrtcandyVotes.length; i++) {
+            if (sqrtcandyVotes[i] > maxValue) {
+                maxValue = sqrtcandyVotes[i];
                 index = i;
             }
         }
