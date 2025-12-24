@@ -41,7 +41,6 @@ export default function Home() {
     { id: 11, title: "White Gamble", votes: 0, src: "/hoodies/15. White Gamble.png" },
   ]);
 
-  const count = items.length;
 
   return (
     // Removed ${styles.container} from top div
