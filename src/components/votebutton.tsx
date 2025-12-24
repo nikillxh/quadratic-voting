@@ -41,7 +41,7 @@ export default function VoteButton(voteProps: { canSubmit: boolean, voteDist: bi
 
   return (
     <div className="flex-1 justify-between px-4">
-      <button className="w-full mx-auto bg-blue-700 text-xl font-semibold p-4 rounded-2xl
+      <button className="mx-auto lg:w-100 sm:w-87 w-64 bg-blue-700 text-base md:text-xl font-semibold p-4 rounded-2xl
         disabled:bg-blue-300/30 disabled:cursor-default disabled:text-gray-400
         hover:bg-blue-500 active:bg-blue-500 transition-all duration-100 cursor-pointer"
         onClick={() => submitVote(voteProps.voteDist)}

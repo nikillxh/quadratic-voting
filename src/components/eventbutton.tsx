@@ -7,7 +7,7 @@ export default function EventsButton() {
             <Link
                 href="/events">
                 <button
-                className="w-full mx-auto bg-indigo-700 text-xl font-semibold p-4 rounded-2xl
+                className="mx-auto lg:w-100 sm:w-87 w-64 bg-indigo-700 text-base md:text-xl font-semibold p-4 rounded-2xl
                 disabled:bg-blue-300/30 disabled:cursor-default disabled:text-gray-400
                 hover:bg-indigo-500 active:bg-indigo-500 transition-all duration-100 cursor-pointer"
                 >
