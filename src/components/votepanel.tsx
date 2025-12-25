@@ -43,7 +43,7 @@ export default function VotingPanel({ onValidityChange, qvEnded, voteStatus, ite
   return (
     <div className="flex flex-col justify-between px-4">
     
-    <pre className="flex font-bold text-2xl justify-center pt-6">Voting Panel</pre>
+    <pre className="flex font-bold text-wrap text-base md:text-2xl justify-center pt-6">Voting Panel</pre>
 
     <div className="mx-auto bg-black/30 p-6 m-4 rounded-lg border border-amber-100/20
     hover:bg-black/50 hover:border-2 transition duration-300 ease-in-out">
@@ -53,7 +53,7 @@ export default function VotingPanel({ onValidityChange, qvEnded, voteStatus, ite
             key={item.id}
             className="grid grid-cols-2 gap-6 items-center text-center"
           >
-            <h2 className="text-white text-xl font-light">
+            <h2 className="text-white text-base md:text-xl font-light">
               {item.title}
             </h2>
 
@@ -64,7 +64,7 @@ export default function VotingPanel({ onValidityChange, qvEnded, voteStatus, ite
                 const value = Number(e.target.value || 0);
                 updateVotes(item.id, value);
               }}
-              className="bg-neutral-800 max-w-32 text-white text-xl text-center p-2 rounded-md outline-none focus:ring-2 focus:ring-violet-500
+              className="bg-neutral-800 max-w-24 md:max-w-32 text-white text-base md:text-xl text-center p-2 rounded-md outline-none focus:ring-2 focus:ring-violet-500
               transition duration-500 ease-in-out"
               placeholder={!qvEnded && voteStatus == 1? "0" : "𓃵"}
               disabled={!qvEnded && voteStatus == 1? false : true}
@@ -74,19 +74,19 @@ export default function VotingPanel({ onValidityChange, qvEnded, voteStatus, ite
 
         <div className="pt-6 border-t border-neutral-700">
           {qvEnded ? (
-            <p className="text-green-500 text-center text-xl font-light">
+            <p className="text-green-500 text-center text-base md:text-xl font-light">
               Voting ended
             </p>
             ):(
             voteStatus == 0 ? (
-              <pre className="text-amber-500 text-center text-xl font-light">
+              <pre className="text-amber-500 text-center text-base md:text-xl font-light">
                 Not a voter</pre>
             ) : voteStatus === 1 ? (
-            <p className="text-white text-center text-xl font-light">
+            <p className="text-white text-center text-base md:text-xl font-light">
               Votes Left:{" "}
               <span className="text-violet-400">{votesLeft}</span>
             </p>) : (
-              <pre className="text-cyan-500 text-center text-xl font-light">
+              <pre className="text-cyan-500 text-center text-base md:text-xl font-light">
                 Already Voted!</pre>
             )
           )}
