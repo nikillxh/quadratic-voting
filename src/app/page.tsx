@@ -34,7 +34,7 @@ export default function Home() {
     { id: 4, title: "White Soul", votes: 0, src: "/hoodies/5. White soul.jpeg" },
     { id: 5, title: "Purple Flames", votes: 0, src: "/hoodies/6. Purple Flames.jpeg" },
     { id: 6, title: "Purple Gamble", votes: 0, src: "/hoodies/8. Purple Gamble.jpeg" },
-    { id: 7, title: "The Third Eye", votes: 0, src: "/hoodies/10. The third eye.jpeg" },
+    { id: 7, title: "Whack a Mole", votes: 0, src: "/hoodies/10. Whack a Mole.jpeg" },
     { id: 8, title: "Flames Again", votes: 0, src: "/hoodies/11.Flames again.png" },
     { id: 9, title: "Again Flames", votes: 0, src: "/hoodies/12.Flames again.png" },
     { id: 10, title: "Blue Soul", votes: 0, src: "/hoodies/14. Blue Soul.png" },

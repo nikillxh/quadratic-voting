@@ -193,7 +193,7 @@ export const EventsABI = [
 export async function fetchAllEvents(client: PublicClient) {
   const rawLogs = await client.getLogs({
     address: QVcontractAddress,
-    fromBlock: 35439153n,
+    fromBlock: 35443338n,
     toBlock: "latest",
   });
 

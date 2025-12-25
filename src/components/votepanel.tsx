@@ -58,16 +58,25 @@ export default function VotingPanel({ onValidityChange, qvEnded, voteStatus, ite
             </h2>
 
             <input
-              type="number"
-              value={item.votes == 0? "": item.votes}
+              type="text"
+              inputMode="numeric"
+              pattern="[0-9]*"
+              value={item.votes === 0 ? "" : item.votes}
               onChange={(e) => {
-                const value = Number(e.target.value || 0);
-                updateVotes(item.id, value);
+                const raw = e.target.value;
+
+                if (!/^\d*$/.test(raw)) return;
+
+                updateVotes(item.id, raw === "" ? 0 : parseInt(raw, 10));
               }}
-              className="bg-neutral-800 max-w-24 md:max-w-32 text-white text-base md:text-xl text-center p-2 rounded-md outline-none focus:ring-2 focus:ring-violet-500
-              transition duration-500 ease-in-out"
-              placeholder={!qvEnded && voteStatus == 1? "0" : "𓃵"}
-              disabled={!qvEnded && voteStatus == 1? false : true}
+              onKeyDown={(e) => {
+                if ([".", "e", "E", "-", "+", " "].includes(e.key)) {
+                  e.preventDefault();
+                }
+              }}
+              className="bg-neutral-800 max-w-24 md:max-w-32 text-white text-base md:text-xl text-center p-2 rounded-md outline-none focus:ring-2 focus:ring-violet-500 transition duration-500 ease-in-out"
+              placeholder={!qvEnded && voteStatus === 1 ? "0" : "𓃵"}
+              disabled={!qvEnded && voteStatus !== 1}
             />
           </div>
         ))}
