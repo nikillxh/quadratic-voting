@@ -15,13 +15,21 @@ contract DeployQuadVoting is Script {
         // Setup election parameters
         string memory electionName = "2024 Community Vote";
         
-        string[] memory candidates = new string[](5);
-        candidates[0] = "Alice Johnson";
-        candidates[1] = "Bob Smith";
-        candidates[2] = "Charlie Davis";
-        candidates[3] = "Diana Evans";
-        candidates[4] = "Ethan Brown";
-        
+        string[] memory candidates = new string[](12);
+        candidates[0]  = "Soul Blue";
+        candidates[1]  = "The Cute One";
+        candidates[2]  = "White Dragon";
+        candidates[3]  = "Blue";
+        candidates[4]  = "White Soul";
+        candidates[5]  = "Purple Flames";
+        candidates[6]  = "Purple Gamble";
+        candidates[7]  = "The Third Eye";
+        candidates[8]  = "Flames Again";
+        candidates[9]  = "Again Flames";
+        candidates[10] = "Blue Soul";
+        candidates[11] = "White Gamble";
+
+                
         address overseer = vm.addr(deployerPrivateKey); // Deployer is overseer
         uint256 deadline = 10 minutes; // 10 minute voting period
         
@@ -52,12 +60,9 @@ contract SetupVoters is Script {
         QuadVoting quadVoting = QuadVoting(contractAddress);
         
         // Prepare voter addresses
-        address[] memory voters = new address[](5);
-        voters[0] = 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266;
-        voters[1] = 0x70997970C51812dc3A010C7d01b50e0d17dc79C8;
-        voters[2] = 0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC;
-        voters[3] = 0x90F79bf6EB2c4f870365E785982E1f101E93b906;
-        voters[4] = 0x15d34AAf54267DB7D7c367839AAf71A00a2C6A65;
+        address[] memory voters = new address[](2);
+        voters[0] = 0x1aA686b438F89BC5246673B4aCAAA9B78BaC0Aac;
+        voters[1] = 0x9627D6E3742524753aD1f98d024c1917db143978;
         
         vm.startBroadcast(overseerPrivateKey);
         

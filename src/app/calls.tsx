@@ -1,7 +1,7 @@
 import { parseEventLogs, PublicClient } from 'viem';
 import { useReadContract } from 'wagmi';
 
-export const QVcontractAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3" as `0x${string}`;
+export const QVcontractAddress = process.env.CONTRACT_ADDRESS as `0x${string}`;
 
 //////////////////////////////////////////////////////
 ////////////////// Order of ABIs /////////////////////

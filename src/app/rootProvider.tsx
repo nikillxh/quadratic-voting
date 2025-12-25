@@ -10,7 +10,7 @@ export function RootProvider({ children }: { children: ReactNode }) {
   return (
     <WagmiProvider config={wagmiConfig}>
       <OnchainKitProvider
-        apiKey=""
+        apiKey={process.env.NEXT_PUBLIC_ONCHAINKIT_API_KEY}
         chain={baseSepolia}
         config={{
           appearance: {
