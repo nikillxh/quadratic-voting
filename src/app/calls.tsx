@@ -16,7 +16,6 @@ export const QVcontractAddress = process.env.CONTRACT_ADDRESS as `0x${string}`;
 //////////////////////////////////////////////////////
 
 
-
 // 1 // Quadratic Candidate Votes ABI (used Wagmi)
 const quadcandyVotesABI = [
   {
@@ -191,7 +190,7 @@ export const EventsABI = [
 export async function fetchAllEvents(client: PublicClient) {
   const rawLogs = await client.getLogs({
     address: QVcontractAddress,
-    fromBlock: "earliest",
+    fromBlock: 35439153n,
     toBlock: "latest",
   });
 

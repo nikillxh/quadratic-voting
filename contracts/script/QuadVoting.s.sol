@@ -31,7 +31,7 @@ contract DeployQuadVoting is Script {
 
                 
         address overseer = vm.addr(deployerPrivateKey); // Deployer is overseer
-        uint256 deadline = 10 minutes; // 10 minute voting period
+        uint256 deadline = 20 minutes; // 10 minute voting period
         
         // Deploy contract
         QuadVoting quadVoting = new QuadVoting(
