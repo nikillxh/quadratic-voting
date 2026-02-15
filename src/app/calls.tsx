@@ -22,15 +22,15 @@ export const QVcontractAddress = process.env.NEXT_PUBLIC_CONTRACT_ADDRESS as `0x
 // 1 // Quadratic Candidate Votes ABI (used Wagmi)
 const quadcandyVotesABI = [
   {
-    type:"function",
-    name:"quadcandyVotes",
-    inputs:[{"name":"","type":"uint256","internalType":"uint256"}],
-    outputs:[{"name":"","type":"uint256","internalType":"uint256"}],
-    stateMutability:"view"
+    type: "function",
+    name: "quadcandyVotes",
+    inputs: [{ "name": "", "type": "uint256", "internalType": "uint256" }],
+    outputs: [{ "name": "", "type": "uint256", "internalType": "uint256" }],
+    stateMutability: "view"
   }
 ] as const;
 
-function useQuadcandyVotesABI (index: bigint) {
+function useQuadcandyVotesABI(index: bigint) {
   return useReadContract({
     address: QVcontractAddress,
     abi: quadcandyVotesABI,
@@ -55,11 +55,11 @@ export function QuadcandyVotes({ id }: { id: number }) {
 // 2 // Quadratic Vote Submit ABI (used Wagmi)
 export const voteABI = [
   {
-    type:"function",
-    name:"vote",
-    inputs:[{name:"_votes",type:"uint256[]",internalType:"uint256[]"}],
-    outputs:[{name:"",type:"bool",internalType:"bool"}],
-    stateMutability:"nonpayable"
+    type: "function",
+    name: "vote",
+    inputs: [{ name: "_votes", type: "uint256[]", internalType: "uint256[]" }],
+    outputs: [{ name: "", type: "bool", internalType: "bool" }],
+    stateMutability: "nonpayable"
   }
 ] as const;
 
@@ -72,7 +72,7 @@ export const quadTotalABI = [
     type: "function",
     name: "quadTotal",
     inputs: [],
-    outputs: [{name: "",type: "uint256",internalType: "uint256",}],
+    outputs: [{ name: "", type: "uint256", internalType: "uint256", }],
     stateMutability: "view",
   },
 ] as const;
@@ -104,7 +104,7 @@ export const QVendedABI = [
     type: "function",
     name: "QVended",
     inputs: [],
-    outputs: [{name: "",type: "bool",internalType: "bool"}],
+    outputs: [{ name: "", type: "bool", internalType: "bool" }],
     stateMutability: "view",
   },
 ] as const;
@@ -127,7 +127,7 @@ export const leadingCandidateABI = [
     type: "function",
     name: "leadingCandidate",
     inputs: [],
-    outputs: [{name: "",type: "uint256",internalType: "uint256",}],
+    outputs: [{ name: "", type: "uint256", internalType: "uint256", }],
     stateMutability: "view",
   },
 ] as const;
@@ -150,8 +150,8 @@ export const voteStatusABI = [
   {
     type: "function",
     name: "voteStatus",
-    inputs: [{name: "",type: "address",internalType: "address",}],
-    outputs: [{name: "",type: "uint8",internalType: "uint8",}],
+    inputs: [{ name: "", type: "address", internalType: "address", }],
+    outputs: [{ name: "", type: "uint8", internalType: "uint8", }],
     stateMutability: "view",
   },
 ] as const;
@@ -190,16 +190,47 @@ export const EventsABI = [
 ] as const;
 
 
+// export async function fetchAllEvents(client: PublicClient) {
+//   const rawLogs = await client.getLogs({
+//     address: QVcontractAddress,
+//     fromBlock: 35443671n,
+//     toBlock: 35491381n,
+//   });
+
+//   const parsedLogs = parseEventLogs({
+//     abi: EventsABI,
+//     logs: rawLogs,
+//   });
+
+//   return parsedLogs;
+// }
+
 export async function fetchAllEvents(client: PublicClient) {
-  const rawLogs = await client.getLogs({
-    address: QVcontractAddress,
-    fromBlock: 35443338n,
-    toBlock: 35491381n,
-  });
+  const fromBlock = 35443671n;
+  const toBlock = 35491381n;
+  const blockChunkSize = 10000n; // Fetch in smaller chunks
+  
+  let allLogs: any[] = [];
+  
+  for (let currentBlock = fromBlock; currentBlock <= toBlock; currentBlock += blockChunkSize) {
+    const endBlock = currentBlock + blockChunkSize - 1n > toBlock ? toBlock : currentBlock + blockChunkSize - 1n;
+    
+    try {
+      const rawLogs = await client.getLogs({
+        address: QVcontractAddress,
+        fromBlock: currentBlock,
+        toBlock: endBlock,
+      });
+      
+      allLogs = allLogs.concat(rawLogs);
+    } catch (error) {
+      console.error(`Error fetching logs from block ${currentBlock} to ${endBlock}:`, error);
+    }
+  }
 
   const parsedLogs = parseEventLogs({
     abi: EventsABI,
-    logs: rawLogs,
+    logs: allLogs,
   });
 
   return parsedLogs;
