@@ -194,7 +194,7 @@ export async function fetchAllEvents(client: PublicClient) {
   const rawLogs = await client.getLogs({
     address: QVcontractAddress,
     fromBlock: 35443338n,
-    toBlock: "latest",
+    toBlock: 35491381n,
   });
 
   const parsedLogs = parseEventLogs({

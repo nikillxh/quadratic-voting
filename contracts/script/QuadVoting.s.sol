@@ -13,7 +13,7 @@ contract DeployQuadVoting is Script {
         vm.startBroadcast(deployerPrivateKey);
         
         // Setup election parameters
-        string memory electionName = "2024 Community Vote";
+        string memory electionName = "BlocSoc Hoodie?";
         
         string[] memory candidates = new string[](12);
         candidates[0]  = "Soul Blue";
@@ -23,7 +23,7 @@ contract DeployQuadVoting is Script {
         candidates[4]  = "White Soul";
         candidates[5]  = "Purple Flames";
         candidates[6]  = "Purple Gamble";
-        candidates[7]  = "The Third Eye";
+        candidates[7]  = "Whack a Mole";
         candidates[8]  = "Flames Again";
         candidates[9]  = "Again Flames";
         candidates[10] = "Blue Soul";
@@ -31,7 +31,7 @@ contract DeployQuadVoting is Script {
 
                 
         address overseer = vm.addr(deployerPrivateKey); // Deployer is overseer
-        uint256 deadline = 20 minutes; // 10 minute voting period
+        uint256 deadline = 27 hours; // 27 hours voting period
         
         // Deploy contract
         QuadVoting quadVoting = new QuadVoting(
@@ -60,9 +60,24 @@ contract SetupVoters is Script {
         QuadVoting quadVoting = QuadVoting(contractAddress);
         
         // Prepare voter addresses
-        address[] memory voters = new address[](2);
-        voters[0] = 0x1aA686b438F89BC5246673B4aCAAA9B78BaC0Aac;
-        voters[1] = 0x9627D6E3742524753aD1f98d024c1917db143978;
+        address[] memory voters = new address[](1);
+        // voters[0] = 0x1aA686b438F89BC5246673B4aCAAA9B78BaC0Aac;
+        // voters[1] = 0x2E71B69c5569b1d3C7e91297E17944aB73F13957;
+        // voters[2] = 0x9627D6E3742524753aD1f98d024c1917db143978;
+        // voters[3] = 0x6F18634a2E3B0e4213a603D43b7C27151bFF436F;
+        // voters[4] = 0x88EC67d6B863366b24BD4F1F3Bd60046b5eE6095;
+        // voters[5] = 0xC365565B744f2b8df4a640166e951420341121c0;
+        // voters[6] = 0xb8263F94399a43dad2e36D4f80A395AD16C6E453;
+        // voters[7] = 0x921f5C6346159b7Af906bfb43AF423C1A311d039;
+        // voters[8] = 0x3EA1aF195d70FCA371F458826f9B282E205ccb29;
+        // voters[9] = 0x66E39D04EDD024A4a0B1A95cF87aeec360019124;
+        // voters[10] = 0x43B369ae0391f54f04D71BeaCB976D38Ca7F0aAe;
+        // voters[11] = 0x89E400EbE55a91E146F06C1A28a2E1e431cADa59;
+        // voters[12] = 0x9245aD1b010dFb9234C3d57Db23a4012FBfB9807;
+        // voters[13] = 0x7d30dF5aa5Fc4405610c10E648D611eAC3934B31;
+        // voters[0] = 0x2767217596E823c02F55bea6122C4c1f01BE1235;
+        voters[0] = 0x62A1F309111eeB59cef1Bfeb0ea5B3FbD6935B1D;
+
         
         vm.startBroadcast(overseerPrivateKey);
         
