@@ -1,4 +1,4 @@
-import { parseEventLogs, PublicClient } from 'viem';
+import { Log, parseEventLogs, PublicClient } from 'viem';
 import { useReadContract } from 'wagmi';
 
 // export const QVcontractAddress = process.env.CONTRACT_ADDRESS as `0x${string}`;
@@ -210,7 +210,7 @@ export async function fetchAllEvents(client: PublicClient) {
   const toBlock = 35491381n;
   const blockChunkSize = 10000n; // Fetch in smaller chunks
   
-  let allLogs: any[] = [];
+  let allLogs: Log[] = [];
   
   for (let currentBlock = fromBlock; currentBlock <= toBlock; currentBlock += blockChunkSize) {
     const endBlock = currentBlock + blockChunkSize - 1n > toBlock ? toBlock : currentBlock + blockChunkSize - 1n;
